@@ -11,3 +11,5 @@ Customer.destroy_all
 10.times do
     Customer.create(first_name: Faker::Name.unique.first_name, last_name: Faker::Name.unique.last_name, email: Faker::Internet.unique.email, password: '7777777')
 end
+
+Customer.all.each {|customer| customer.create_cart(total: 0)}
