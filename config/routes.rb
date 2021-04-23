@@ -5,4 +5,12 @@ Rails.application.routes.draw do
       resources :sessions, only: [:create]
     end
   end
+
+  namespace :api do
+    namespace :v1 do
+      resources :carts, only: [:update] do
+        resources :cart_items, except: [:new, :edit]
+      end
+    end
+  end
 end
