@@ -11,6 +11,14 @@ class Api::V1::CartItemsController < ApplicationController
         end
     end
 
+    def update
+        cart_item = CartItem.find_by(id: params[:id])
+        cart_item.update(quantity: params[:quantity])
+        cart_item.cart.update_total
+        options = { include: [:cart] }
+        render json: CartItemSerializer.new(cart_item, options)
+    end
+
     def destroy
         cart = Cart.find_by(id: params[:cart_id])
         cart_item = CartItem.find_by(id: params[:id])
