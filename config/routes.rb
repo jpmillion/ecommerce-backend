@@ -13,4 +13,20 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  namespace :api do
+    namespace :v1 do
+      resources :customers, only: [:create] do
+        resources :orders, only: [:create, :index]
+      end
+    end
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :orders, only: [:index] do
+        resources :order_items, only: [:create, :index]
+      end
+    end
+  end
 end
