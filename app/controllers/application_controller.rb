@@ -7,31 +7,12 @@ class ApplicationController < ActionController::API
         JWT.encode({customer_id: customer.id}, jwt_key, 'HS256')
     end
 
-    def decoded_token
+    def decoded_token(token)
         begin
           JWT.decode(token, jwt_key, true, { :algorithm => 'HS256' })
         rescue JWT::DecodeError
           [{error: "Invalid Token"}]
         end
     end
-
-    def authorized
-        render json: { message: 'Please log in' }, status: :unauthorized unless logged_in?
-    end
- 
-    def token
-        request.headers['Authorization']
-    end
-     
-    def customer_id
-        decoded_token.first['customer_id']
-    end
-     
-    def current_customer
-        customer ||= Customer.find_by(id: customer_id)
-    end
-     
-    def logged_in?
-        !!current_customer
-    end
+    
 end

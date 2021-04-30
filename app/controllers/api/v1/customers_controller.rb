@@ -21,10 +21,17 @@ class Api::V1::CustomersController < ApplicationController
             cart = customer.create_cart(total: 0)
             token = issue_token(customer)
             options = {include: [:cart]}
-            render json: { customer: CustomerSerializer.new(customer, options), jwt: token }
+            render json: { customer: CustomerSerializer.new(customer, options), token: token }
         else
             render json: { error: customer.errors.full_messages }, status: :not_acceptable
         end
+    end
+
+    def authenticate
+        token = request.headers['token']
+        id = decoded_token(token)[0]['customer_id']
+        customer = Customer.find(id)
+        render json: { customer: CustomerSerializer.new(customer) }
     end
 
     private 

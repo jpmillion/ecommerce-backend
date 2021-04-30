@@ -32,7 +32,9 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :customers, only: [:create]
+      resources :customers, only: [:create] do
+        get 'authenticate', on: :collection
+      end
     end
   end
 end
