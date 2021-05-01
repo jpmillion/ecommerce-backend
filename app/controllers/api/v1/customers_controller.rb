@@ -23,7 +23,7 @@ class Api::V1::CustomersController < ApplicationController
             options = {include: [:cart]}
             render json: { customer: CustomerSerializer.new(customer, options), token: token, logIn: true }
         else
-            render json: { error: customer.errors.full_messages, logIn: false, token: '' }, status: :not_acceptable
+            render json: { errors: customer.errors.full_messages, logIn: false, token: '' }, status: :not_acceptable
         end
     end
 
